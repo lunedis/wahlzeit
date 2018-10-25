@@ -134,6 +134,11 @@ public class Photo extends DataObject {
 	/**
 	 *
 	 */
+	protected Location location;
+
+	/**
+	 *
+	 */
 	public Photo() {
 		id = PhotoId.getNextId();
 		incWriteCount();
@@ -417,5 +422,13 @@ public class Photo extends DataObject {
 	public void setNoNewPraise() {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }
