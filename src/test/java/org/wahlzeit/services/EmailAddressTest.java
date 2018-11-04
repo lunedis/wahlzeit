@@ -27,6 +27,8 @@ import junit.framework.TestCase;
  */
 public class EmailAddressTest extends TestCase {
 
+	public static String[] validEmails = {"bingo@bongo", "bingo@bongo.com", "bingo.bongo@bongo.com", "bingo+bongo@bango.com"};
+
 	/**
 	 *
 	 */
@@ -39,11 +41,9 @@ public class EmailAddressTest extends TestCase {
 	 */
 	public void testGetEmailAddressFromString() {
 		// invalid email addresses are allowed for local testing and online avoided by Google
-
-		assertTrue(createEmailAddressIgnoreException("bingo@bongo"));
-		assertTrue(createEmailAddressIgnoreException("bingo@bongo.com"));
-		assertTrue(createEmailAddressIgnoreException("bingo.bongo@bongo.com"));
-		assertTrue(createEmailAddressIgnoreException("bingo+bongo@bango"));
+		for(String validEmail : validEmails) {
+			assertTrue(createEmailAddressIgnoreException(validEmail));
+		}
 	}
 
 	/**
@@ -64,6 +64,16 @@ public class EmailAddressTest extends TestCase {
 	 */
 	public void testEmptyEmailAddress() {
 		assertFalse(EmailAddress.EMPTY.isValid());
+	}
+
+	/**
+	 * Test isEqual function on EmailAddress
+	 */
+	public void testEmailAdressEquals() {
+	    for(String validEmail : validEmails) {
+	        assertTrue(EmailAddress.getFromString(validEmail).isEqual(EmailAddress.getFromString(validEmail)));
+        }
+        assertTrue(EmailAddress.getFromString("").isEqual(EmailAddress.EMPTY));
 	}
 
 }
