@@ -45,10 +45,7 @@ import java.util.logging.Logger;
  */
 public class PhotoManager extends ObjectManager {
 
-	/**
-	 *
-	 */
-	protected static final PhotoManager instance = new PhotoManager();
+	private static PhotoManager instance = null;
 
 	private static final Logger log = Logger.getLogger(PhotoManager.class.getName());
 
@@ -58,6 +55,11 @@ public class PhotoManager extends ObjectManager {
 	protected Map<PhotoId, Photo> photoCache = new HashMap<PhotoId, Photo>();
 
 	/**
+	 * factory object to create new photos
+	 */
+	protected PhotoFactory factory;
+
+	/**
 	 *
 	 */
 	protected PhotoTagCollector photoTagCollector = null;
@@ -65,8 +67,9 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public PhotoManager() {
-		photoTagCollector = PhotoFactory.getInstance().createPhotoTagCollector();
+	public PhotoManager(PhotoFactory factory) {
+		this.factory = factory;
+		photoTagCollector = factory.createPhotoTagCollector();
 	}
 
 	/**
@@ -108,7 +111,7 @@ public class PhotoManager extends ObjectManager {
 		Photo result = doGetPhotoFromId(id);
 
 		if (result == null) {
-			result = PhotoFactory.getInstance().loadPhoto(id);
+			result = factory.loadPhoto(id);
 			if (result != null) {
 				doAddPhoto(result);
 			}
@@ -363,4 +366,7 @@ public class PhotoManager extends ObjectManager {
 		}
 	}
 
+	public static void initialize(PhotoFactory factory) {
+		instance = new PhotoManager(factory);
+	}
 }
