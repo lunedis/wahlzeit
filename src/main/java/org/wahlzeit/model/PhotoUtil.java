@@ -39,8 +39,8 @@ public class PhotoUtil {
 	/**
 	 * @methodtype creation
 	 */
-	public static Photo createPhoto(String filename, PhotoId id, Image uploadedImage) throws Exception {
-		Photo result = VintagePhotoFactory.getInstance().createPhoto(id);
+	public static Photo createPhoto(String filename, PhotoId id, Image uploadedImage, PhotoFactory factory) throws Exception {
+		Photo result = factory.createPhoto(id);
 		result.setEnding(filename.substring(filename.lastIndexOf(".") + 1));
 
 		createImageFiles(uploadedImage, result);

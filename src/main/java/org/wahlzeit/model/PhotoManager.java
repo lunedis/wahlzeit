@@ -76,6 +76,9 @@ public class PhotoManager extends ObjectManager {
 	 *
 	 */
 	public static final PhotoManager getInstance() {
+		if(instance == null) {
+			instance = new PhotoManager(PhotoFactory.getInstance());
+		}
 		return instance;
 	}
 
@@ -341,7 +344,7 @@ public class PhotoManager extends ObjectManager {
 	 */
 	public Photo createPhoto(String filename, Image uploadedImage) throws Exception {
 		PhotoId id = PhotoId.getNextId();
-		Photo result = PhotoUtil.createPhoto(filename, id, uploadedImage);
+		Photo result = PhotoUtil.createPhoto(filename, id, uploadedImage, this.factory);
 		addPhoto(result);
 		return result;
 	}
