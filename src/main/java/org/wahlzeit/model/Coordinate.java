@@ -21,73 +21,30 @@
 
 package org.wahlzeit.model;
 
-import java.util.Objects;
-
-public class Coordinate {
-    protected double x;
-    protected double y;
-    protected double z;
-
-    public Coordinate(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
-    public boolean isEqual(Coordinate otherCoordinate) {
-        return Double.compare(otherCoordinate.x, x) == 0 &&
-            Double.compare(otherCoordinate.y, y) == 0 &&
-            Double.compare(otherCoordinate.z, z) == 0;
-    }
+public interface Coordinate {
 
     /**
-     * Calculates the cartesian distance between two coordinates
+     * @methodtype conversion
      */
-    public double getDistance(Coordinate otherCoordinate) {
-        return Math.sqrt(
-                Math.pow(otherCoordinate.x - x, 2) +
-                Math.pow(otherCoordinate.y - y, 2) +
-                Math.pow(otherCoordinate.z - z, 2)
-        );
-    }
+    CartesianCoordinate asCartesianCoordinate();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Coordinate that = (Coordinate) o;
-        return this.isEqual(that);
-    }
+    /**
+     * @methodtype query
+     */
+    double getCartesianDistance(Coordinate coordinate);
 
-    @Override
-    public int hashCode() {
+    /**
+     * @methodtype conversion
+     */
+    SphericCoordinate asSphericCoordinate();
 
-        return Objects.hash(x, y, z);
-    }
+    /**
+     * @methodtype query
+     */
+    double getCentralAngle(Coordinate coordinate);
 
-
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-    }
+    /**
+     * @methodtype query
+     */
+    boolean isEqual(Coordinate coordinate);
 }
