@@ -21,7 +21,7 @@
 
 package org.wahlzeit.model;
 
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
     private double x;
     private double y;
     private double z;
@@ -72,21 +72,6 @@ public class CartesianCoordinate implements Coordinate {
     }
 
     /**
-     * @param coordinate
-     * @methodtype query
-     */
-    @Override
-    public double getCartesianDistance(Coordinate coordinate) {
-        CartesianCoordinate otherCoordinate = coordinate.asCartesianCoordinate();
-
-        return Math.sqrt(
-                Math.pow(otherCoordinate.x - x, 2) +
-                Math.pow(otherCoordinate.y - y, 2) +
-                Math.pow(otherCoordinate.z - z, 2)
-        );
-}
-
-    /**
      * @methodtype conversion
      */
     @Override
@@ -97,29 +82,5 @@ public class CartesianCoordinate implements Coordinate {
                 Math.acos(z / radius),
                 radius
         );
-    }
-
-    /**
-     * @param coordinate
-     * @methodtype query
-     */
-    @Override
-    public double getCentralAngle(Coordinate coordinate) {
-        return coordinate.asSphericCoordinate().getCentralAngle(coordinate);
-    }
-
-    /**
-     * @param coordinate
-     * @methodtype query
-     */
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        final double EPSILON = 0.000001;
-
-        CartesianCoordinate otherCoordinate = coordinate.asCartesianCoordinate();
-
-        return Math.abs(otherCoordinate.getX() - x) < EPSILON &&
-                Math.abs(otherCoordinate.getY() - y) < EPSILON &&
-                Math.abs(otherCoordinate.getZ() - z) < EPSILON;
     }
 }

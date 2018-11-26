@@ -21,7 +21,7 @@
 
 package org.wahlzeit.model;
 
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
     private double phi;
     private double theta;
     private double radius;
@@ -76,47 +76,10 @@ public class SphericCoordinate implements Coordinate {
     }
 
     /**
-     * @param coordinate
-     * @methodtype query
-     */
-    @Override
-    public double getCartesianDistance(Coordinate coordinate) {
-        return this.asCartesianCoordinate().getCartesianDistance(coordinate);
-    }
-
-    /**
      * @methodtype conversion
      */
     @Override
     public SphericCoordinate asSphericCoordinate() {
         return this;
-    }
-
-    /**
-     * @param coordinate
-     * @methodtype query
-     */
-    @Override
-    public double getCentralAngle(Coordinate coordinate) {
-        SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
-        return Math.acos(
-                Math.sin(phi) * Math.sin(sphericCoordinate.phi) +
-                Math.cos(phi) * Math.cos(phi) * Math.cos(Math.abs(sphericCoordinate.theta - theta))
-        );
-    }
-
-    /**
-     * @param coordinate
-     * @methodtype query
-     */
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        final double EPSILON = 0.000001;
-
-        SphericCoordinate otherCoordinate = coordinate.asSphericCoordinate();
-
-        return Math.abs(otherCoordinate.getPhi() - phi) < EPSILON &&
-                Math.abs(otherCoordinate.getTheta() - theta) < EPSILON &&
-                Math.abs(otherCoordinate.getRadius() - radius) < EPSILON;
     }
 }
