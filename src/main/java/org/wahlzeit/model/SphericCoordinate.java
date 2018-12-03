@@ -27,12 +27,13 @@ public class SphericCoordinate extends AbstractCoordinate {
     private double radius;
 
     public SphericCoordinate(double phi, double theta, double radius) {
-        this.phi = phi;
-        this.theta = theta;
-        this.radius = radius;
+        setPhi(phi);
+        setTheta(theta);
+        setRadius(radius);
     }
 
     public SphericCoordinate(Coordinate coordinate) {
+        assertClassInvariants();
         SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
         this.phi = sphericCoordinate.getPhi();
         this.theta = sphericCoordinate.getTheta();
@@ -44,6 +45,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     public void setPhi(double phi) {
+        assertValidPhi(phi);
         this.phi = phi;
     }
 
@@ -52,6 +54,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     public void setTheta(double theta) {
+        assertValidTheta(theta);
         this.theta = theta;
     }
 
@@ -60,6 +63,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     public void setRadius(double radius) {
+        assertValidRadius(radius);
         this.radius = radius;
     }
 
@@ -68,6 +72,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      */
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
+        assertClassInvariants();
         return new CartesianCoordinate(
                 radius * Math.sin(theta) * Math.cos(phi),
                 radius * Math.sin(theta) * Math.sin(phi),
@@ -81,5 +86,32 @@ public class SphericCoordinate extends AbstractCoordinate {
     @Override
     public SphericCoordinate asSphericCoordinate() {
         return this;
+    }
+
+    @Override
+    protected void assertClassInvariants() {
+        assertValidPhi(phi);
+        assertValidTheta(theta);
+        assertValidRadius(radius);
+    }
+
+    private void assertValidRadius(double radius) {
+        assert(Double.isFinite(radius));
+        assert(!Double.isNaN(radius));
+        assert(radius >= 0);
+    }
+
+    private void assertValidPhi(double phi) {
+        assertValidAngle(phi);
+    }
+
+    private void assertValidTheta(double theta) {
+        assertValidAngle(theta);
+    }
+
+    private void assertValidAngle(double angle) {
+        assert(!Double.isNaN(angle));
+        assert(Double.isFinite(angle));
+        assert(Math.abs(angle) < (Math.PI * 2));
     }
 }

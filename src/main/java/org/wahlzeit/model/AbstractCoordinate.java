@@ -29,6 +29,8 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCartesianDistance(Coordinate coordinate) {
+        assertClassInvariants();
+
         CartesianCoordinate me = this.asCartesianCoordinate();
         CartesianCoordinate otherCoordinate = coordinate.asCartesianCoordinate();
 
@@ -45,6 +47,8 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCentralAngle(Coordinate coordinate) {
+        assertClassInvariants();
+
         SphericCoordinate me = this.asSphericCoordinate();
         SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
         return Math.acos(
@@ -60,6 +64,8 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public boolean isEqual(Coordinate coordinate) {
+        assertClassInvariants();
+
         final double EPSILON = 0.000001;
 
         CartesianCoordinate me = coordinate.asCartesianCoordinate();
@@ -76,4 +82,6 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     @Override
     public abstract SphericCoordinate asSphericCoordinate();
+
+    protected abstract void assertClassInvariants();
 }

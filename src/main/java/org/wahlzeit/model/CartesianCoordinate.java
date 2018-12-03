@@ -27,12 +27,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
     private double z;
 
     public CartesianCoordinate(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        setX(x);
+        setY(y);
+        setZ(z);
     }
 
     public CartesianCoordinate(Coordinate coordinate) {
+        assertClassInvariants();
         CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
         this.x = cartesianCoordinate.getX();
         this.y = cartesianCoordinate.getY();
@@ -44,6 +45,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public void setX(double x) {
+        assertValidDouble(x);
         this.x = x;
     }
 
@@ -52,6 +54,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public void setY(double y) {
+        assertValidDouble(y);
         this.y = y;
     }
 
@@ -60,6 +63,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     public void setZ(double z) {
+        assertValidDouble(z);
         this.z = z;
     }
 
@@ -68,6 +72,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
      */
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
+        assertClassInvariants();
         return this;
     }
 
@@ -76,11 +81,24 @@ public class CartesianCoordinate extends AbstractCoordinate {
      */
     @Override
     public SphericCoordinate asSphericCoordinate() {
+        assertClassInvariants();
         double radius = Math.sqrt(Math.pow(x,2) + Math.pow(y, 2) + Math.pow(z,2));
         return new SphericCoordinate(
                 Math.atan(y / x),
                 Math.acos(z / radius),
                 radius
         );
+    }
+
+    @Override
+    protected void assertClassInvariants() {
+        assertValidDouble(x);
+        assertValidDouble(y);
+        assertValidDouble(z);
+    }
+
+    private void assertValidDouble(double d) {
+        assert(!Double.isNaN(d));
+        assert(Double.isFinite(d));
     }
 }
