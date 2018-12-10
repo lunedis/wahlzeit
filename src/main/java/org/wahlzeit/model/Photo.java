@@ -200,6 +200,9 @@ public class Photo extends DataObject {
 	 * @methodtype get
 	 */
 	public String getSummary(ModelConfig cfg) {
+		if(cfg == null) {
+			throw new IllegalArgumentException("ModelConfig must not be null.");
+		}
 		return cfg.asPhotoSummary(ownerId);
 	}
 
@@ -207,6 +210,9 @@ public class Photo extends DataObject {
 	 * @methodtype get
 	 */
 	public String getCaption(ModelConfig cfg) {
+		if(cfg == null) {
+			throw new IllegalArgumentException("ModelConfig must not be null.");
+		}
 		String ownerName = UserManager.getInstance().getUserById(ownerId).getNickName();
 		return cfg.asPhotoCaption(ownerName);
 	}
@@ -245,6 +251,9 @@ public class Photo extends DataObject {
 	 * @methodtype boolean-query
 	 */
 	public boolean hasSameOwner(Photo photo) {
+		if(photo == null) {
+			throw new IllegalArgumentException("Photo must not be null.");
+		}
 		return photo.getOwnerEmailAddress().equals(ownerEmailAddress);
 	}
 
@@ -316,6 +325,9 @@ public class Photo extends DataObject {
 	 * @methodtype boolean-query
 	 */
 	public boolean hasPhotoSize(PhotoSize size) {
+		if(size == null) {
+			throw new IllegalArgumentException("Invalid PhotoSize, must not be null.");
+		}
 		return maxPhotoSize.asInt() >= size.asInt();
 	}
 
@@ -330,6 +342,9 @@ public class Photo extends DataObject {
 	 * @methodtype get
 	 */
 	public String getPraiseAsString(ModelConfig cfg) {
+		if(cfg == null) {
+			throw new IllegalArgumentException("ModelConfig must not be null.");
+		}
 		return cfg.asPraiseString(getPraise());
 	}
 

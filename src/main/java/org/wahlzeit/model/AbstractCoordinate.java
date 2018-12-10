@@ -29,6 +29,10 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCartesianDistance(Coordinate coordinate) {
+        if(coordinate == null) {
+            throw new IllegalArgumentException("coordinate may not be null.");
+        }
+
         assertClassInvariants();
 
         CartesianCoordinate me = this.asCartesianCoordinate();
@@ -47,6 +51,10 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCentralAngle(Coordinate coordinate) {
+        if(coordinate == null) {
+            throw new IllegalArgumentException("coordinate may not be null.");
+        }
+
         assertClassInvariants();
 
         SphericCoordinate me = this.asSphericCoordinate();
@@ -64,6 +72,10 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public boolean isEqual(Coordinate coordinate) {
+        if(coordinate == null) {
+            throw new IllegalArgumentException("coordinate may not be null.");
+        }
+
         assertClassInvariants();
 
         final double EPSILON = 0.000001;

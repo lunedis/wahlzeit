@@ -258,6 +258,9 @@ public class PhotoManager extends ObjectManager {
 	 * the Datastore, it is simply not persisted.
 	 */
 	protected void saveScaledImages(Photo photo) {
+		if(photo == null) {
+			throw new IllegalArgumentException("Photo must no be null.");
+		}
 		String photoIdAsString = photo.getId().asString();
 		ImageStorage imageStorage = ImageStorage.getInstance();
 		PhotoSize photoSize;
@@ -306,7 +309,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public void savePhotos() throws IOException{
+	public void savePhotos() {
 		updateObjects(photoCache.values());
 	}
 
@@ -335,6 +338,9 @@ public class PhotoManager extends ObjectManager {
 	 *
 	 */
 	public Photo getVisiblePhoto(PhotoFilter filter) {
+		if(filter == null) {
+			throw new IllegalArgumentException("PhotoFilter must not be null.");
+		}
 		filter.generateDisplayablePhotoIds();
 		return getPhotoFromId(filter.getRandomDisplayablePhotoId());
 	}
@@ -342,7 +348,13 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public Photo createPhoto(String filename, Image uploadedImage) throws Exception {
+	public Photo createPhoto(String filename, Image uploadedImage) {
+		if(filename == null || filename.isEmpty()) {
+			throw new IllegalArgumentException("Filename must not be null or empty.");
+		}
+		if(uploadedImage == null) {
+			throw new IllegalArgumentException("Uploaded image must not be null");
+		}
 		PhotoId id = PhotoId.getNextId();
 		Photo result = PhotoUtil.createPhoto(filename, id, uploadedImage, this.factory);
 		addPhoto(result);
@@ -352,7 +364,10 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * @methodtype command
 	 */
-	public void addPhoto(Photo photo) throws IOException {
+	public void addPhoto(Photo photo) {
+		if(photo == null) {
+			throw new IllegalArgumentException("Photo must not be null.");
+		}
 		PhotoId id = photo.getId();
 		assertIsNewPhoto(id);
 		doAddPhoto(photo);
@@ -370,6 +385,9 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	public static void initialize(PhotoFactory factory) {
+		if(instance == null) {
+			throw new IllegalStateException("You must not initialize PhotoManager twice.");
+		}
 		instance = new PhotoManager(factory);
 	}
 }

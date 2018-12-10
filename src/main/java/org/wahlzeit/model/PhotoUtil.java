@@ -39,7 +39,7 @@ public class PhotoUtil {
 	/**
 	 * @methodtype creation
 	 */
-	public static Photo createPhoto(String filename, PhotoId id, Image uploadedImage, PhotoFactory factory) throws Exception {
+	public static Photo createPhoto(String filename, PhotoId id, Image uploadedImage, PhotoFactory factory) {
 		Photo result = factory.createPhoto(id);
 		result.setEnding(filename.substring(filename.lastIndexOf(".") + 1));
 
@@ -55,7 +55,7 @@ public class PhotoUtil {
 	/**
 	 *
 	 */
-	public static void createImageFiles(Image source, Photo photo) throws Exception {
+	public static void createImageFiles(Image source, Photo photo) {
 		assertIsValidImage(source);
 
 		int sourceWidth = source.getWidth();
@@ -91,7 +91,7 @@ public class PhotoUtil {
 	 * @methodtype command Scale the source picture to the given size, store it in the datastore and reference it in the
 	 * photo.
 	 */
-	protected static void scaleImage(Image source, PhotoSize size, Photo photo) throws Exception {
+	protected static void scaleImage(Image source, PhotoSize size, Photo photo) {
 		int sourceWidth = source.getWidth();
 		int sourceHeight = source.getHeight();
 
