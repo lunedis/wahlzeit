@@ -33,8 +33,8 @@ public class CoordinateTest {
 
     @Test
     public void testCartesianDistance() {
-        Coordinate c1 = new CartesianCoordinate(2.0, 3.0, -1.0);
-        Coordinate c2 = new CartesianCoordinate(4.0, 1.0, -2.0);
+        Coordinate c1 = CartesianCoordinate.create(2.0, 3.0, -1.0);
+        Coordinate c2 = CartesianCoordinate.create(4.0, 1.0, -2.0);
 
         double distance = c1.getCartesianDistance(c2);
         assertEquals(distance, 3.0);
@@ -42,8 +42,8 @@ public class CoordinateTest {
 
     @Test
     public void testCartesianEquals() {
-        Coordinate c1 = new CartesianCoordinate(4.0, 3.0, 25.0);
-        Coordinate c2 = new CartesianCoordinate(4.0, 3.0, 25.0);
+        Coordinate c1 = CartesianCoordinate.create(4.0, 3.0, 25.0);
+        Coordinate c2 = CartesianCoordinate.create(4.0, 3.0, 25.0);
 
         assertTrue(c2.isEqual(c1));
         assertTrue(c1.isEqual(c2));
@@ -51,8 +51,8 @@ public class CoordinateTest {
 
     @Test
     public void testSphericEquals() {
-        Coordinate c1 = new SphericCoordinate(Math.PI, Math.PI / 2, 1.0);
-        Coordinate c2 = new SphericCoordinate(Math.PI, Math.PI / 2, 1.0);
+        Coordinate c1 = SphericCoordinate.create(Math.PI, Math.PI / 2, 1.0);
+        Coordinate c2 = SphericCoordinate.create(Math.PI, Math.PI / 2, 1.0);
 
         assertTrue(c2.isEqual(c1));
         assertTrue(c1.isEqual(c2));
@@ -60,13 +60,13 @@ public class CoordinateTest {
 
     @Test
     public void testConversions() {
-        Coordinate c1 = new CartesianCoordinate(1.0, 1.0, 0.0);
-        Coordinate c2 = new CartesianCoordinate(5.0, -4.0, 2.0);
+        Coordinate c1 = CartesianCoordinate.create(1.0, 1.0, 0.0);
+        Coordinate c2 = CartesianCoordinate.create(5.0, -4.0, 2.0);
         assertTrue(c1.isEqual(c1.asSphericCoordinate().asCartesianCoordinate()));
         assertTrue(c2.isEqual(c2.asSphericCoordinate().asCartesianCoordinate()));
 
-        Coordinate c3 = new SphericCoordinate(Math.PI / 3, Math.PI / 3, 1.0);
-        Coordinate c4 = new SphericCoordinate(0.232181528, 0.8248124812, 22.0);
+        Coordinate c3 = SphericCoordinate.create(Math.PI / 3, Math.PI / 3, 1.0);
+        Coordinate c4 = SphericCoordinate.create(0.232181528, 0.8248124812, 22.0);
         assertTrue(c3.isEqual(c3.asCartesianCoordinate().asSphericCoordinate()));
         assertTrue(c4.isEqual(c4.asCartesianCoordinate().asSphericCoordinate()));
     }

@@ -21,50 +21,33 @@
 
 package org.wahlzeit.model;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public class SphericCoordinate extends AbstractCoordinate {
-    private double phi;
-    private double theta;
-    private double radius;
+    private final double phi;
+    private final double theta;
+    private final double radius;
 
-    public SphericCoordinate(double phi, double theta, double radius) {
-        setPhi(phi);
-        setTheta(theta);
-        setRadius(radius);
-    }
+    protected final static HashMap<Integer, SphericCoordinate> instances = new HashMap<Integer, SphericCoordinate>();
 
-    public SphericCoordinate(Coordinate coordinate) {
+    private SphericCoordinate(double phi, double theta, double radius) {
+        this.phi = phi;
+        this.theta = theta;
+        this.radius = radius;
         assertClassInvariants();
-        SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
-        this.phi = sphericCoordinate.getPhi();
-        this.theta = sphericCoordinate.getTheta();
-        this.radius = sphericCoordinate.getRadius();
     }
 
     public double getPhi() {
         return phi;
     }
 
-    public void setPhi(double phi) {
-        assertValidPhi(phi);
-        this.phi = phi;
-    }
-
     public double getTheta() {
         return theta;
     }
 
-    public void setTheta(double theta) {
-        assertValidTheta(theta);
-        this.theta = theta;
-    }
-
     public double getRadius() {
         return radius;
-    }
-
-    public void setRadius(double radius) {
-        assertValidRadius(radius);
-        this.radius = radius;
     }
 
     /**
@@ -73,7 +56,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
         assertClassInvariants();
-        return new CartesianCoordinate(
+        return CartesianCoordinate.create(
                 radius * Math.sin(theta) * Math.cos(phi),
                 radius * Math.sin(theta) * Math.sin(phi),
                 radius * Math.cos(theta)
@@ -113,5 +96,16 @@ public class SphericCoordinate extends AbstractCoordinate {
         assert(!Double.isNaN(angle));
         assert(Double.isFinite(angle));
         assert(Math.abs(angle) < (Math.PI * 2));
+    }
+
+    public static SphericCoordinate create(double x, double y, double z) {
+        int hash = hash(x,y,z);
+        if(instances.containsKey(hash)) {
+            return instances.get(hash);
+        } else {
+            SphericCoordinate coordinate = new SphericCoordinate(x,y,z);
+            instances.put(hash, coordinate);
+            return coordinate;
+        }
     }
 }

@@ -21,50 +21,36 @@
 
 package org.wahlzeit.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Objects;
+
 public class CartesianCoordinate extends AbstractCoordinate {
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
-    public CartesianCoordinate(double x, double y, double z) {
-        setX(x);
-        setY(y);
-        setZ(z);
-    }
+    protected final static HashMap<Integer, CartesianCoordinate> instances = new HashMap<Integer, CartesianCoordinate>();
 
-    public CartesianCoordinate(Coordinate coordinate) {
+    private CartesianCoordinate(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
         assertClassInvariants();
-        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
-        this.x = cartesianCoordinate.getX();
-        this.y = cartesianCoordinate.getY();
-        this.z = cartesianCoordinate.getZ();
     }
 
     public double getX() {
         return x;
     }
 
-    public void setX(double x) {
-        assertValidDouble(x);
-        this.x = x;
-    }
-
     public double getY() {
         return y;
     }
 
-    public void setY(double y) {
-        assertValidDouble(y);
-        this.y = y;
-    }
-
     public double getZ() {
         return z;
-    }
-
-    public void setZ(double z) {
-        assertValidDouble(z);
-        this.z = z;
     }
 
     /**
@@ -83,7 +69,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public SphericCoordinate asSphericCoordinate() {
         assertClassInvariants();
         double radius = Math.sqrt(Math.pow(x,2) + Math.pow(y, 2) + Math.pow(z,2));
-        return new SphericCoordinate(
+        return SphericCoordinate.create(
                 Math.atan(y / x),
                 Math.acos(z / radius),
                 radius
@@ -100,5 +86,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
     private void assertValidDouble(double d) {
         assert(!Double.isNaN(d));
         assert(Double.isFinite(d));
+    }
+
+    public static CartesianCoordinate create(double x, double y, double z) {
+        int hash = hash(x,y,z);
+        if(instances.containsKey(hash)) {
+            return instances.get(hash);
+        } else {
+            CartesianCoordinate coordinate = new CartesianCoordinate(x,y,z);
+            instances.put(hash, coordinate);
+            return coordinate;
+        }
     }
 }

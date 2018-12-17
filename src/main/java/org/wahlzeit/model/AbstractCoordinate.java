@@ -21,7 +21,14 @@
 
 package org.wahlzeit.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Objects;
+
 public abstract class AbstractCoordinate implements Coordinate {
+
+    public static final int PLACES = 6;
 
     /**
      * @param coordinate
@@ -76,16 +83,7 @@ public abstract class AbstractCoordinate implements Coordinate {
             throw new IllegalArgumentException("coordinate may not be null.");
         }
 
-        assertClassInvariants();
-
-        final double EPSILON = 0.000001;
-
-        CartesianCoordinate me = coordinate.asCartesianCoordinate();
-        CartesianCoordinate otherCoordinate = coordinate.asCartesianCoordinate();
-
-        return Math.abs(otherCoordinate.getX() - me.getX()) < EPSILON &&
-                Math.abs(otherCoordinate.getY() - me.getY()) < EPSILON &&
-                Math.abs(otherCoordinate.getZ() - me.getZ()) < EPSILON;
+        return this == coordinate;
     }
 
 
@@ -96,4 +94,14 @@ public abstract class AbstractCoordinate implements Coordinate {
     public abstract SphericCoordinate asSphericCoordinate();
 
     protected abstract void assertClassInvariants();
+
+    protected static int hash(double a, double b, double c) {
+        return Objects.hash(round(a, PLACES), round(b, PLACES), round(c, PLACES));
+    }
+
+    private static double round(double value, int places) {
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 }
