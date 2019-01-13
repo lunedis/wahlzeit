@@ -21,11 +21,16 @@
 
 package org.wahlzeit.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.HashMap;
-import java.util.Objects;
+import org.wahlzeit.utils.PatternInstance;
 
+import java.util.HashMap;
+
+@PatternInstance(
+    patternName = "Value Object",
+    participants = {
+        "CartesianCoordinate"
+    }
+)
 public class CartesianCoordinate extends AbstractCoordinate {
     private final double x;
     private final double y;

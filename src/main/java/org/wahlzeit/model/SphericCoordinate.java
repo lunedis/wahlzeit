@@ -21,9 +21,16 @@
 
 package org.wahlzeit.model;
 
-import java.util.HashMap;
-import java.util.Objects;
+import org.wahlzeit.utils.PatternInstance;
 
+import java.util.HashMap;
+
+@PatternInstance(
+    patternName = "Value Object",
+    participants = {
+        "SphericCoordinate"
+    }
+)
 public class SphericCoordinate extends AbstractCoordinate {
     private final double phi;
     private final double theta;
