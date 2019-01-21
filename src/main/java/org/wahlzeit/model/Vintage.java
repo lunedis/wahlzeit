@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Karl Werner
+ * Copyright (c) 2019 by Karl Werner
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -21,34 +21,38 @@
 
 package org.wahlzeit.model;
 
-import java.util.Calendar;
-import java.util.logging.Logger;
+public class Vintage {
+    private String brand = "BMW";
+    private String model = "E9 3.0 CSL";
+    private int year = 1971;
 
-public class VintagePhoto extends Photo {
+    private VintageType vintageType;
 
-    private static final Logger log = Logger.getLogger(VintagePhoto.class.getName());
-
-    private Vintage vintage;
-
-    /**
-     * @methodtype get
-     */
-    public Vintage getVintage() {
-        return vintage;
+    public Vintage(VintageType vintageType) {
+        this.vintageType = vintageType;
     }
 
-    /**
-     * @methodtype constructor
-     */
-    public VintagePhoto() {
-        super();
+    public String getBrand() {
+        return brand;
     }
 
-    /**
-     * @methodtype constructor
-     */
-    public VintagePhoto(PhotoId id) {
-        super(id);
-        log.info("VintagePhoto class instantiated");
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

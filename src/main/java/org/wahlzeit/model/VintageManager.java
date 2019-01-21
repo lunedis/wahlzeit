@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 by Karl Werner
+ * Copyright (c) 2019 by Karl Werner
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -21,34 +21,27 @@
 
 package org.wahlzeit.model;
 
-import java.util.Calendar;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
-public class VintagePhoto extends Photo {
+public class VintageManager {
+    private Map<Integer, Vintage> vintages = new HashMap<Integer, Vintage>();
+    private Map<String, VintageType> vintageTypes = new HashMap<String, VintageType>();
 
-    private static final Logger log = Logger.getLogger(VintagePhoto.class.getName());
-
-    private Vintage vintage;
-
-    /**
-     * @methodtype get
-     */
-    public Vintage getVintage() {
-        return vintage;
-    }
-
-    /**
-     * @methodtype constructor
-     */
-    public VintagePhoto() {
+    protected VintageManager() {
         super();
     }
 
-    /**
-     * @methodtype constructor
-     */
-    public VintagePhoto(PhotoId id) {
-        super(id);
-        log.info("VintagePhoto class instantiated");
+    public Vintage createVintage(String type) {
+        VintageType typeObject = vintageTypes.get(type);
+        if (typeObject == null) {
+            typeObject = new VintageType(this);
+            vintageTypes.put(type, typeObject);
+        }
+
+        Vintage vintage = typeObject.createInstance();
+        vintages.put(vintage.hashCode(), vintage);
+        return vintage;
     }
+
 }
