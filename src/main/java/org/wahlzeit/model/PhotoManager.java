@@ -392,9 +392,6 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	public static void initialize(PhotoFactory factory) {
-		if(instance == null) {
-			throw new IllegalStateException("You must not initialize PhotoManager twice.");
-		}
 		instance = new PhotoManager(factory);
 	}
 }

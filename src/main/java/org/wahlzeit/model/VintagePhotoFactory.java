@@ -31,12 +31,14 @@ public class VintagePhotoFactory extends PhotoFactory {
      * Hidden singleton instance; needs to be initialized from the outside.
      */
     private static VintagePhotoFactory instance = null;
+    private VintageManager vintageManager = null;
 
     /**
      *
      */
     protected VintagePhotoFactory() {
         // do nothing
+        vintageManager = new VintageManager();
     }
 
     /**
@@ -72,14 +74,27 @@ public class VintagePhotoFactory extends PhotoFactory {
     /**
      * @methodtype factory
      */
-    public Photo createPhoto() {
-        return new VintagePhoto();
+    public Photo createPhoto(PhotoId id) {
+        VintagePhoto photo = new VintagePhoto();
+        photo.setVintage(vintageManager.createVintage("Standard"));
+        return photo;
+    }
+
+    /**
+     * @methodtype factory
+     */
+    public Photo createPhoto(String type) {
+        VintagePhoto photo = new VintagePhoto();
+        photo.setVintage(vintageManager.createVintage(type));
+        return photo;
     }
 
     /**
      * Creates a new photo with the specified id
      */
-    public Photo createPhoto(PhotoId id) {
-        return new VintagePhoto(id);
+    public Photo createPhoto(String type, PhotoId id) {
+        VintagePhoto photo = new VintagePhoto(id);
+        photo.setVintage(vintageManager.createVintage(type));
+        return photo;
     }
 }

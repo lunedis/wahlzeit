@@ -38,6 +38,13 @@ public class VintagePhoto extends Photo {
     }
 
     /**
+     * @methodtype set
+     */
+    public void setVintage(Vintage vintage) {
+        this.vintage = vintage;
+    }
+
+    /**
      * @methodtype constructor
      */
     public VintagePhoto() {
@@ -50,5 +57,12 @@ public class VintagePhoto extends Photo {
     public VintagePhoto(PhotoId id) {
         super(id);
         log.info("VintagePhoto class instantiated");
+    }
+
+    /**
+     * @methodtype constructor
+     */
+    public VintagePhoto(String vintageType) {
+        super();
     }
 }
